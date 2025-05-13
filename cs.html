@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopada Pet Shop</title>
+
+  <link rel="icon" href="https://pngimg.com/uploads/paw/paw_PNG66.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Share Tech', sans-serif;
+      background: linear-gradient(to bottom, #f0f9f2, #d9f2e6);
+      padding: 20px;
+      color: #2f4f4f;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2e7d32;
+    }
+
+    #categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .category {
+      background-color: #a5d6a7;
+      border-radius: 12px;
+      border: 2px solid #66bb6a;
+      padding: 15px;
+      margin: 10px;
+      width: 140px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .category:hover {
+      background-color: #81c784;
+      transform: scale(1.05);
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      width: calc(50% - 40px);
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      max-width: 250px;
+    }
+
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover; 
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #66bb6a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4caf50;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #ccc;
+      padding: 8px 0;
+    }
+
+    #shopcart img {
+      width: 40px;
+      vertical-align: middle;
+    }
+
+    #myInfo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+    }
+
+    form label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+
+  <script>
+    function myInfo() {
+      location.replace("cs2.html");
+    }
+
+    const categories = {
+      dogs: [
+        {name: 'Golden Retriever', price: 5000, img: 'https://www.vidavetcare.com/wp-content/uploads/sites/234/2022/04/golden-retriever-dog-breed-info.jpeg'},
+        {name: 'Siberian Husky', price: 4500, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ3rJs_z6uvQjco1ZCAhA7iV6zsRVmoW3HjA&s'},
+        {name: 'Corgi', price: 4000, img: 'https://jiminys.com/cdn/shop/articles/Depositphotos_87766636_S_68bc9d9a-1ef3-4234-bb73-9cae6bb8329c.jpg'},
+        {name: 'Poodle', price: 6000, img: 'https://cdn.britannica.com/39/233239-050-50C0C3C5/standard-poodle-dog.jpg'},
+        {name: 'Chow-chow', price: 6500, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJWUy7aJGAfx9lk2GbEOe8HEAuwyjavIMl2A&s'}
+      ],
+      cats: [
+        {name: 'Persian Cat', price: 3000, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOzKzzEUZMLP9I9zFZSzB8ljlP2qkvc2EF3g&s'},
+        {name: 'Siberian Cat', price: 3200, img: 'https://pethelpful.com/.image/w_3840,q_auto:good,c_fill,ar_4:3,g_xy_center,x_756,y_320/NDowMDAwMDAwMDAwMDcxNzEy/siberiancatonawinterwalk.jpg'},
+        {name: 'Munchkin Cat', price: 4000, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRneuLn-A0frlZfrvYryHwEgVP7SfkcWmXY6A&s'},
+        {name: 'Maine Coon', price: 4500, img: 'https://www.purina.ph/sites/default/files/2021-02/CAT%20HERO_0012_Maine_coon.jpg'},
+        {name: 'Ragdoll', price: 4200, img: 'https://cfa.org/wp-content/uploads/2024/05/2022-bw1i-StarlightPZTenten-837x1024.webp'}
+      ],
+      birds: [
+        {name: 'Chicken', price: 600, img: 'https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/1:1/w_4318,h_4318,c_limit/RoastChicken_RECIPE_080420_37993.jpg'},
+        {name: 'Cockatiel', price: 1000, img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF52MXQVCAvPIiwwaD8MTJoHrB0JK35Yemiw&s'},
+        {name: 'Parakeets', price: 900, img: 'https://winnebagoanimals.org/wp-content/uploads/2021/08/Parakeeets.jpg'},
+        {name: 'Parrot', price: 950, img: 'https://cdn.britannica.com/35/3635-050-96241EC1/Scarlet-macaw-ara-macao.jpg'},
+        {name: 'Love Birds', price: 7000, img: 'https://image.petmd.com/files/styles/863x625/public/2022-12/lovebirds.jpg'}
+      ],
+      exotic: [
+        {name: 'Velociraptor', price: 25000, img: 'https://i.redd.it/jc80oc14pm0d1.jpeg'},
+        {name: 'Alligator', price: 5000, img: 'https://www.pressconnects.com/gcdn/-mm-/c92df813867b1bf26386881817237ea9a0c26c08/c=0-154-3008-1846/local/-/media/Binghamton/2015/01/17/B9315904738Z.1_20150117115929_000_GAK9MV50E.1-0.jpg?width=660&height=372&fit=crop&format=pjpg&auto=webp'},
+        {name: 'Tarantula', price: 1200, img: 'https://i.natgeofe.com/k/44ec6f20-e6a7-4041-91ac-d008f84a6117/tarantula-closeup-hand_4x3.jpg'},
+        {name: 'Hedgehog', price: 2000, img: 'https://images.ctfassets.net/rt5zmd3ipxai/4Z1RIc1p8375Fb1JPvVhcg/f39b175c5b030bd6e2df81fa1b9fb0de/ServiceCards-Hedgehog.png'},
+        {name: 'Ferret', price: 3500, img: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Ferret_2008.png'}
+      ]
+    };
+
+    let cart = [];
+
+    function showCategory(cat) {
+      const prodDiv = document.getElementById('products');
+      prodDiv.innerHTML = '';
+      categories[cat].forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = 
+          `<img src="${item.img || ''}" alt="${item.name}">
+          <strong>${item.name}</strong><br>
+          ₱${item.price}<br>
+          <button onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>`;
+        prodDiv.appendChild(div);
+      });
+      prodDiv.classList.remove('hidden');
+    }
+
+    function addToCart(name, price) {
+      cart.push({ prod_name: name, prod_price: price });
+      updateCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartDiv = document.getElementById('cart');
+      cartDiv.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.prod_price;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `${item.prod_name} - ₱${item.prod_price} <button onclick="removeFromCart(${index})">Remove</button>`;
+        cartDiv.appendChild(div);
+      });
+      document.getElementById('total').textContent = total;
+    }
+
+    function prepareCheckout() {
+      const orderInput = document.getElementById('cust_order');
+      orderInput.value = JSON.stringify(cart);
+    }
+  </script>
+</head>
+<body>
+  <button id="myInfo" onclick="myInfo()">
+    <img src="https://static.thenounproject.com/png/2392586-200.png" alt="about the company" style="width: 40px;" />
+  </button>
+
+  <h1>Shopada: Familiar Paws and Secret Claws</h1>
+
+  <div id="categories">
+    <div class="category" onclick="showCategory('dogs')">Dogs</div>
+    <div class="category" onclick="showCategory('cats')">Cats</div>
+    <div class="category" onclick="showCategory('birds')">Birds</div>
+    <div class="category" onclick="showCategory('exotic')">Exotic</div>
+  </div>
+
+  <div id="products" class="products hidden"></div>
+
+  <div id="cart">
+    <h3>Cart</h3>
+    <div id="cart-items"></div>
+    <h4>Total: ₱<span id="total">0</span></h4>
+    <form action="thankyou.html">
+      <label for="cust_name">Name:</label>
+      <input type="text" id="cust_name" name="cust_name" required />
+      <label for="cust_email">Email:</label>
+      <input type="email" id="cust_email" name="cust_email" required />
+      <input type="hidden" id="cust_order" name="cust_order" />
+      <button type="submit" onclick="prepareCheckout()">Proceed to Checkout</button>
+    </form>
+  </div>
+</body>
+</html>
+
+
